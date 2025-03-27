@@ -1,0 +1,23 @@
+[Unit]
+Description=CAPTCHA Solver
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+Pod=servarr.pod
+ContainerName=flaresolverr
+
+Image=ghcr.io/flaresolverr/flaresolverr:latest
+
+Environment=TZ=Europe/Madrid
+Environment=PUID=1001
+Environment=PGID=1001
+
+AutoUpdate=registry
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,29 @@
+version: "3"
+
+# More info at https://github.com/pi-hole/docker-pi-hole/ and https://docs.pi-hole.net/
+services:
+  pihole:
+    container_name: pihole
+    image: pihole/pihole:latest
+    # For DHCP it is recommended to remove these ports and instead add: network_mode: "host"
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+      - "8081:80/tcp"
+    dns:
+      - 127.0.0.1
+    environment:
+      TZ: 'Europe/Madrid'
+      WEB_PORT: 80
+      VIRTUAL_HOST: 'rpi-server'
+      WEBPASSWORD: 'admin'
+      FTLCONF_LOCAL_IPV4: '192.168.1.38'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '/home/cdonato/pi-hole/etc-pihole:/etc/pihole'
+      - '/home/cdonato/pi-hole/etc-dnsmasq.d:/etc/dnsmasq.d'
+    #   https://github.com/pi-hole/docker-pi-hole#note-on-capabilities
+    restart: unless-stopped
+    labels:
+      com.centurylinklabs.watchtower.enable: false

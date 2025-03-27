@@ -1,0 +1,12 @@
+[Pod] 
+PodName=servarr
+
+PublishPort=6767:6767
+PublishPort=7878:7878
+PublishPort=8989:8989
+PublishPort=9696:9696
+PublishPort=9091:9091
+PublishPort=9117:9117
+PublishPort=8191:8191
+PublishPort=51413:51413
+PublishPort=51413:51413/udp

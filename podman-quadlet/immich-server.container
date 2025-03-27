@@ -1,0 +1,36 @@
+[Unit]
+Requires=immich-redis.service immich-database.service 
+After=immich-redis.service immich-database.service 
+
+[Service]
+CPUQuota=200%
+Delegate=true
+
+[Container]
+Pod=immich.pod
+ContainerName=immich_server
+EnvironmentFile=immich.env
+
+Image=ghcr.io/immich-app/immich-server:release
+
+# If localtime is not set (e.g. Fedora CoreOS) : 
+# Volume=/usr/share/zoneinfo/Europe/Paris:/etc/localtime:ro
+Volume=/etc/localtime:/etc/localtime:ro
+Volume=/mnt/media/pictures:/usr/src/app/upload:z
+
+AddDevice=/dev/dri:/dev/dri/
+
+HealthCmd=["/bin/bash", "immich-healthcheck"]
+HealthStartPeriod=3m
+HealthInterval=10s
+HealthTimeout=30s
+HealthRetries=10
+Notify=healthy
+
+[Service]
+# give some time to the database to start
+ExecStartPre=sleep 30
+Restart=always
+
+[Install]
+WantedBy=default.target

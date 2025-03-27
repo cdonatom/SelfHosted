@@ -1,0 +1,31 @@
+[Unit]
+Description=HomeKit Brige
+Wants=network-online.target
+After=network-online.target
+
+[Container]
+ContainerName=homebridge
+
+Image=docker.io/homebridge/homebridge:latest
+
+Volume=/home/media/homebridge/volumes/homebridge:/homebridge:Z
+
+Environment=TZ=Europe/Madrid
+
+PublishPort=8581:8581/tcp
+PublishPort=51460:51460/tcp
+AutoUpdate=registry
+
+HealthCmd="curl --fail localhost:8581 || exit 1"
+HealthStartPeriod=300s
+HealthInterval=60s
+HealthTimeout=2s
+HealthRetries=5
+Notify=healthy
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

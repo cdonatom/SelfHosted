@@ -1,0 +1,28 @@
+[Unit]
+Description=Plex auto languages
+Wants=network-online.target
+After=network-online.target
+After=local-fs.target
+
+[Container]
+
+ContainerName= plex-autolanguages
+
+Image=docker.io/remirigal/plex-auto-languages:latest
+
+Pod=plex.pod
+
+Environment=PLEX_URL=http://plex:32400
+Environment=TZ=Europe/Paris
+Environment=PLEX_TOKEN=
+
+Volume=/home/media/plexautolanguages/config:/config:Z
+
+AutoUpdate=registry
+
+[Service]
+Restart=on-failure
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

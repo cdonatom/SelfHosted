@@ -1,0 +1,15 @@
+---
+version: "2.1"
+services:
+  minidlna:
+    image: vladgh/minidlna:latest
+    container_name: minidlna
+    environment:
+      - MINIDLNA_MEDIA_DIR=/media
+      - MINIDLNA_FRIENDLY_NAME=rpi-server
+      - MINIDLNA_MEDIA_DIR_2=P,/media/pictures
+    volumes:
+      - /mnt/data:/media
+      - /mnt/media/pictures:/media/pictures
+    network_mode: 'host'
+    restart: unless-stopped

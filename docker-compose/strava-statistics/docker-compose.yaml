@@ -1,0 +1,10 @@
+services:
+  app:
+    image: robiningelbrecht/strava-statistics:latest
+    volumes:
+      - ./build:/var/www/build
+      - ./storage/database:/var/www/storage/database
+      - ./storage/files:/var/www/storage/files
+    env_file: ./.env
+    ports:
+      - 8080:8080
